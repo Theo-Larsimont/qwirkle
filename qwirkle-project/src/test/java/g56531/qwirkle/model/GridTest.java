@@ -104,7 +104,7 @@ public class GridTest {
        grid.firstAdd(UP, t1, t2, t3);
        var t4 = new Tile(BLUE,ROUND);
        grid.add(45, 44, t4);
-       assertEquals(t4, get(grid, 0, -1));
+       assertEquals(t4, grid.get(45, 44));
 
    }
 
@@ -150,6 +150,22 @@ public class GridTest {
         var t4 = new Tile(BLUE,ROUND);
         grid.add(46,44, t4);
         assertNull(get(grid, 1, -1));
+    }
+
+    @Test
+    void rules_cedric_b() {
+        var t1 = new Tile(RED, ROUND);
+        var t2 = new Tile(RED, DIAMOND);
+        var t3 = new Tile(RED, PLUS);
+        grid.firstAdd(UP, t1, t2, t3);
+        var t4 = new Tile(RED, SQUARE);
+        var t5 = new Tile(RED, SQUARE);
+        var t6 = new Tile(PURPLE, SQUARE);
+        grid.add(46,45,RIGHT, t4, t5, t6);
+        assertNull(grid.get(46,45));
+        //assertEquals(t4, get(grid, 1, 0));
+        //assertEquals(t5, get(grid, 1, 1));
+        //assertEquals(t6, get(grid, 1, 2));
     }
 
 }
