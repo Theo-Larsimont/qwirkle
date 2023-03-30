@@ -122,6 +122,10 @@ public class Grid {
         }
     }
 
+    /**
+     * Add one or more tiles to a specific position
+     * @param line tile to add
+     */
     public void add(TileAtPosition... line) {
         boolean validMove = false;
         boolean doubleTile = false;
@@ -230,6 +234,13 @@ public class Grid {
         return validMove;
     }
 
+    /**
+     * check if there is already the same tile in a row or column
+     * @param row line of the tuile to chec
+     * @param col column of thr tile to check
+     * @param tilePlay tile to check
+     * @return true if there  are double
+     */
     private boolean checkDouble(int row, int col, Tile tilePlay) {
         boolean doubletile = false;
         int initialRow = row;
