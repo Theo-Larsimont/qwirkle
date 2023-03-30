@@ -29,6 +29,9 @@ public class Grid {
         return tile[row][col];
     }
 
+
+    // ************************* Méthode ADD **********************************
+
     /**
      * Place the first tile in the middle of the board if the move is valid
      *
@@ -77,12 +80,87 @@ public class Grid {
             throw new QwirkleException("Pac encore de premier coupe jouer");
         }
 
-        if (compatibleWithTileBoard(row, col, playTile)) {
+        if (compatibleWithTileBoard(row, col, playTile)
+        && !checkDouble(row, col, playTile)) {
             tile[row][col] = playTile;
         }
 
     }
 
+    /**
+     * Add multiple tiles in a given direction if the move is valid
+     *
+     * @param row  line where movement begins
+     * @param col  column where movement begins
+     * @param d    direction to add
+     * @param line tiles to play
+     */
+    public void add(int row, int col, Direction d, Tile... line) {
+
+        boolean validMove = false;
+        boolean doubleTile = false;
+        int playMove = 0;
+        int initialrow = row;
+        int initialCol = col;
+        for (var tilePlay : line) {
+            validMove = compatibleWithTileBoard(row, col, tilePlay);
+            doubleTile = checkDouble(row, col, tilePlay);
+            if (validMove && !doubleTile) {
+                tile[row][col] = tilePlay;
+                playMove++;
+                row += d.getDeltaRow();
+                col += d.getDeltaCol();
+            } else {
+                row = initialrow;
+                col = initialCol;
+                for (int i = 0; i < playMove; i++) {
+                    tile[row][col] = null;
+                    row += d.getDeltaRow();
+                    col += d.getDeltaCol();
+                }
+            }
+        }
+    }
+
+    public void add(TileAtPosition... line) {
+        boolean validMove = false;
+        boolean doubleTile = false;
+        int nbMovePlay = 0;
+        int row = 0;
+        int col = 0;
+        Tile tilePlay;
+        for (var tilePlayAtPosition : line) {
+            row = tilePlayAtPosition.row();
+            col = tilePlayAtPosition.col();
+            tilePlay = tilePlayAtPosition.tile();
+            validMove = compatibleWithTileBoard(row, col, tilePlay);
+            doubleTile = checkDouble(row, col, tilePlay);
+
+            if (!validMove || doubleTile) {
+                validMove = false;
+                break;
+            }
+
+            tile[row][col] = tilePlay;
+            nbMovePlay++;
+        }
+        if (nbMovePlay > 0 && !validMove) {
+            for (int i = 0; i < nbMovePlay; i++) {
+                row = line[i].row();
+                col = line[i].col();
+                tile[row][col] = null;
+            }
+        }
+    }
+
+    // ********************** Méthode Utile Privée  ***************************
+
+    /**
+     * check if all the tiles you want to play are compatible with each other
+     *
+     * @param line all tile we want play
+     * @return true if they are compatible
+     */
     private boolean tilesPlayIsCompatible(Tile[] line) {
         int sameColors = 0;
         int sameShapes = 0;
@@ -106,6 +184,16 @@ public class Grid {
         return tileCompatible;
     }
 
+
+    /**
+     * check if a tile is compatible with a position with the tiles already
+     * present on the board
+     *
+     * @param row
+     * @param col
+     * @param line tile to check
+     * @return
+     */
     private boolean compatibleWithTileBoard(int row, int col, Tile line) {
         int initialRow = row;
         int initialCol = col;
@@ -127,7 +215,7 @@ public class Grid {
                         validMove = false;
                     }
                 } else if (shapePlayTile == tile[row][col].shape() &&
-                    colorPlayTile == tile[row][col].color()){
+                        colorPlayTile == tile[row][col].color()) {
                     validMove = false;
                 }
             } else {
@@ -142,29 +230,30 @@ public class Grid {
         return validMove;
     }
 
-    public void add(int row, int col, Direction d, Tile... line) {
-
-        boolean validMove = false;
-        int playMove = 0;
-        int initialrow = row;
+    private boolean checkDouble(int row, int col, Tile tilePlay) {
+        boolean doubletile = false;
+        int initialRow = row;
         int initialCol = col;
-        for (var tilePlay : line) {
-            validMove = compatibleWithTileBoard(row, col, tilePlay);
-            if(validMove){
-                tile[row][col] = tilePlay;
-                playMove++;
+        for (var d : Direction.values()) {
+            row += d.getDeltaRow();
+            col += d.getDeltaCol();
+            while (tile[row][col] != null){
+
+                if(tile[row][col].color() == tilePlay.color()
+                && tile[row][col].shape() == tilePlay.shape()){
+                    doubletile = true;
+                    break;
+                }
                 row += d.getDeltaRow();
                 col += d.getDeltaCol();
-            }else {
-                row = initialrow;
-                col = initialCol;
-                for(int i = 0; i < playMove; i++){
-                    tile[row][col] = null;
-                    row += d.getDeltaRow();
-                    col += d.getDeltaCol();
-                }
             }
+            if (doubletile){
+                break;
+            }
+            row = initialRow;
+            col = initialCol;
         }
-    }
+        return doubletile;
 
+    }
 }

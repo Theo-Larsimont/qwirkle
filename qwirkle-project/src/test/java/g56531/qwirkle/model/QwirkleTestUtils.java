@@ -49,4 +49,34 @@ public class QwirkleTestUtils {
         grid.add(INITIAL_ROW + row, INITIAL_COLUMN + col, tile);
     }
 
+    /**
+     * Add tiles at a given 0-based position
+     * <p>
+     * A 0-based position means a position where (0, 0) denotes the center ;
+     * whereas the model accepts a position where (INITIAL_ROW, INITIAL_COLUMN) is the actual center.
+     *
+     * @param grid The grid where to add the tile to.
+     * @param row  a row number, with 0 being the center row.
+     * @param col  a column number, with 0 being the center column.
+     * @param d    a direction
+     * @param line tiles to add.
+     */
+    static void add(Grid grid, int row, int col, Direction d, Tile... line) {
+        grid.add(INITIAL_ROW + row, INITIAL_COLUMN + col, d, line);
+    }
+
+
+    /**
+     * Create a TileAtPosition object using a 0-based position.
+     * <p>
+     * A 0-based position means a position where (0, 0) denotes the center ;
+     * whereas the model accepts a position where (INITIAL_ROW, INITIAL_COLUMN) is the actual center.
+     *
+     * @param row  a row number, with 0 being the center row.
+     * @param col  a column number, with 0 being the center column.
+     * @param tile a tile to insert into the object.
+     */
+    static TileAtPosition createTileAtpos(int row, int col, Tile tile) {
+        return new TileAtPosition(INITIAL_ROW + row, INITIAL_COLUMN + col, tile);
+    }
 }
