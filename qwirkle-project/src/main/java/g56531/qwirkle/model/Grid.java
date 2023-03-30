@@ -126,6 +126,9 @@ public class Grid {
                     if (colorPlayTile != tile[row][col].color()) {
                         validMove = false;
                     }
+                } else if (shapePlayTile == tile[row][col].shape() &&
+                    colorPlayTile == tile[row][col].color()){
+                    validMove = false;
                 }
             } else {
                 caseNull++;
@@ -140,10 +143,7 @@ public class Grid {
     }
 
     public void add(int row, int col, Direction d, Tile... line) {
-        if (!tilesPlayIsCompatible(line)) {
-            throw new QwirkleException("les tuile jouer ne sont pas " +
-                    "compatible");
-        }
+
         boolean validMove = false;
         int playMove = 0;
         int initialrow = row;

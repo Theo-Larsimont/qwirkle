@@ -159,13 +159,59 @@ public class GridTest {
         var t3 = new Tile(RED, PLUS);
         grid.firstAdd(UP, t1, t2, t3);
         var t4 = new Tile(RED, SQUARE);
+        var t5 = new Tile(BLUE, SQUARE);
+        var t6 = new Tile(PURPLE, SQUARE);
+        grid.add(46,45,RIGHT, t4, t5, t6);
+        assertEquals(t4, get(grid, 1, 0));
+        assertEquals(t5, get(grid, 1, 1));
+        assertEquals(t6, get(grid, 1, 2));
+    }
+
+    @Test
+    void rules_cedric_b_wonrg_same_tile() {
+        var t1 = new Tile(RED, ROUND);
+        var t2 = new Tile(RED, DIAMOND);
+        var t3 = new Tile(RED, PLUS);
+        grid.firstAdd(UP, t1, t2, t3);
+        var t4 = new Tile(RED, SQUARE);
         var t5 = new Tile(RED, SQUARE);
         var t6 = new Tile(PURPLE, SQUARE);
         grid.add(46,45,RIGHT, t4, t5, t6);
         assertNull(grid.get(46,45));
-        //assertEquals(t4, get(grid, 1, 0));
-        //assertEquals(t5, get(grid, 1, 1));
-        //assertEquals(t6, get(grid, 1, 2));
+    }
+
+    @Test
+    void rules_elvire_c() {
+        var t1 = new Tile(RED, ROUND);
+        var t2 = new Tile(RED, DIAMOND);
+        var t3 = new Tile(RED, PLUS);
+        grid.firstAdd(UP, t1, t2, t3);
+        var t4 = new Tile(RED, SQUARE);
+        var t5 = new Tile(BLUE, SQUARE);
+        var t6 = new Tile(PURPLE, SQUARE);
+        grid.add(46,45,RIGHT, t4, t5, t6);
+        var t7 = new Tile(BLUE, ROUND);
+        grid.add(45,46, t7);
+        assertEquals(t7, get(grid, 0, 1));
+    }
+
+    @Test
+    void rules_vincent_d() {
+        var t1 = new Tile(RED, ROUND);
+        var t2 = new Tile(RED, DIAMOND);
+        var t3 = new Tile(RED, PLUS);
+        grid.firstAdd(UP, t1, t2, t3);
+        var t4 = new Tile(RED, SQUARE);
+        var t5 = new Tile(BLUE, SQUARE);
+        var t6 = new Tile(PURPLE, SQUARE);
+        grid.add(46,45,RIGHT, t4, t5, t6);
+        var t7 = new Tile(BLUE, ROUND);
+        grid.add(45,46, t7);
+        var t8 = new Tile(GREEN, PLUS);
+        var t9 = new Tile(GREEN, DIAMOND);
+        grid.add(43,44, DOWN, t8, t9);
+        assertEquals(t8, grid.get(43,44));
+        assertEquals(t9, grid.get( 44, 44));
     }
 
 }
