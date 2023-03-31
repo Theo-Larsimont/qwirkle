@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class Player {
     private String name;
-    
+
     // Hand of the player
     private List<Tile> tiles;
 
