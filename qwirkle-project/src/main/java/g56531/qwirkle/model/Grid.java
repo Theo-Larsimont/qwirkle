@@ -20,7 +20,6 @@ public class Grid {
 
     /**
      * flip a tile to a given position
-     *
      * @param row
      * @param col
      * @return tile in this position
