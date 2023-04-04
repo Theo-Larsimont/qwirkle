@@ -7,4 +7,8 @@ package g56531.qwirkle.model;
  */
 public record Tile(Color color, Shape shape) {
 
+    @Override
+    public String toString() {
+        return color +""+shape + "\u001B[0m";
     }
+}
