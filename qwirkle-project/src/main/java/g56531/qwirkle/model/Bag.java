@@ -45,12 +45,14 @@ public class Bag {
         } else if (getsize() < n) {
             for(int i = 0; i < getsize(); i++){
                 drawTile[i] = tiles.get(i);
+                tiles.remove(i);
             }
         } else{
             for(int i = 0; i < n; i++){
                 Random random = new Random();
-                int indexTile = random.nextInt(getsize() + 1);
+                int indexTile = random.nextInt(getsize() - 1);
                 drawTile[i] = tiles.get(indexTile);
+                tiles.remove(indexTile);
             }
         }
         return drawTile;
@@ -75,3 +77,4 @@ public class Bag {
     }
 
 }
+

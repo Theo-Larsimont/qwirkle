@@ -1,6 +1,7 @@
 package g56531.qwirkle.model;
 
 
+import g56531.qwirkle.view.View;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -53,7 +54,7 @@ public class GridTest {
     @Test
     void firstAdd_several_same_color_tile() {
         var tile = new Tile(BLUE, CROSS);
-        var tile2 = new Tile(BLUE, CROSS);
+        var tile2 = new Tile(ORANGE, SQUARE);
         assertThrows(QwirkleException.class, () ->{
             grid.firstAdd(RIGHT, tile, tile2);
         });
@@ -82,6 +83,8 @@ public class GridTest {
         assertNull(get(grid,-2,0));
     }
 
+
+
     @Test
     void firstAdd_cannot_be_called_twice() {
         Tile redcross = new Tile(RED, CROSS);
@@ -107,6 +110,18 @@ public class GridTest {
        assertEquals(t4, grid.get(45, 44));
 
    }
+
+    @Test
+    void tile_is_comptabile_with_tile_near_but_not_with_the_other_Tile_in_the_line() {
+        var t1 = new Tile(RED, ROUND);
+        var t2 = new Tile(RED, DIAMOND);
+        var t3 = new Tile(RED, PLUS);
+        grid.firstAdd(UP, t1, t2, t3);
+        var t4 = new Tile(GREEN,PLUS);
+        grid.add(42, 45, t4);
+        assertNull(grid.get(42, 45));
+
+    }
 
     @Test
     void add_one_tile() {
@@ -687,6 +702,7 @@ public class GridTest {
         grid.add(46,49, DOWN, t24, t25);
         assertEquals(t24, grid.get(46,49));
         assertEquals(t25, grid.get(47,49));
+
     }
 
     @Test

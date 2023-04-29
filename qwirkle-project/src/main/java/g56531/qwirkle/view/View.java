@@ -11,6 +11,7 @@ public class View {
 
     /**
      * display the board of the game
+     *
      * @param grid
      */
     public static void display(GridView grid) {
@@ -18,24 +19,43 @@ public class View {
         int colMax = 45;
         int rowMin = 45;
         int colMin = 45;
-        boolean minFind = false;
-        boolean maxFind = false;
-        for (int row = 0; !minFind; row++ ){
-            for(int col = 0; col < 91; col++){
-                if (grid.get(row,col) != null){
-                    minFind = true;
+        boolean tileFind = false;
+
+        for (int row = 0; !tileFind; row++) {
+            for (int col = 0; col < 91; col++) {
+                if (grid.get(row, col) != null) {
+                    tileFind = true;
                     rowMin = row;
+                    break;
+                }
+            }
+        }
+        tileFind = false;
+        for (int row = 90; !tileFind; row--) {
+            for (int col = 90; col >= 0; col--) {
+                if (grid.get(row, col) != null) {
+                    tileFind = true;
+                    rowMax = row;
+                    break;
+                }
+            }
+        }
+        tileFind = false;
+
+        for (int col = 0; !tileFind; col++) {
+            for (int row = 0; row < 91; row++) {
+                if (grid.get(row, col) != null) {
+                    tileFind = true;
                     colMin = col;
                     break;
                 }
             }
         }
-
-        for (int row = 90; !maxFind; row-- ){
-            for(int col = 90; col >= 0; col--){
-                if (grid.get(row,col) != null){
-                    maxFind = true;
-                    rowMax = row;
+        tileFind = false;
+        for (int col = 90; !tileFind; col--) {
+            for (int row = 0; row < 91; row++) {
+                if (grid.get(row, col) != null) {
+                    tileFind = true;
                     colMax = col;
                     break;
                 }
@@ -43,41 +63,44 @@ public class View {
         }
 
         for (int i = rowMin; i <= rowMax; i++) {
-            System.out.print(i +"\t");
-            for(int x = colMin; x <= colMax; x++){
-                if(grid.get(i,x) != null){
-                    System.out.print(grid.get(i,x).toString() + "\t");
+            System.out.print(i + "\t");
+            for (int x = colMin; x <= colMax; x++) {
+                if (grid.get(i, x) != null) {
+                    System.out.print(grid.get(i, x).toString() + "\t");
+                } else {
+                    System.out.print(" \t");
                 }
             }
             System.out.println();
         }
         System.out.print("\t");
-        for(int i = colMin; i <= colMax; i++){
-            System.out.print(i+"\t");
+        for (int i = colMin; i <= colMax; i++) {
+            System.out.print(i + "\t");
         }
     }
 
     /**
      * Display the name of the player
+     *
      * @param player
      */
-    public static void display(Player player){
-        System.out.println(player.getName());
+    public static void display(Player player) {
+        System.out.println(player.getName() + ": " + player.getHands());
     }
 
     /**
      * display a message  error
+     *
      * @param message
      */
-    public static void displayError(String message){
-        System.out.println(
-        message);
+    public static void displayError(String message) {
+        System.out.println("\u001B[31m" + message + "\u001B[0m");
     }
 
     /**
      * display game controls
      */
-    public static void displayHelp(){
+    public static void displayHelp() {
         System.out.println(""" 
                 Q W I R K L E
                 Qwirkle command:

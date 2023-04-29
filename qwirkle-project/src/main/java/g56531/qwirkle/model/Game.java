@@ -16,15 +16,26 @@ public class Game {
      * @param playersName
      */
     public Game(List<String> playersName) {
-        Player[] players = new Player[playersName.size()];
+        players = new Player[playersName.size()];
+        int i = 0;
         for (var player: playersName) {
-            players[0] = new Player(player);
+            players[i] = new Player(player);
+            i++;
         }
         this.grid = new Grid();
         this.currentPlayer = 0;
 
     }
 
+    public Player getPlayers() {
+        return players[currentPlayer];
+    }
+    public Player[] getPlayer(){
+        return players;
+    }
+    public int getCurrentPlayer(){
+        return currentPlayer;
+    }
     public String getCurrentPlayerName(){
         return players[currentPlayer].getName();
     }
@@ -41,7 +52,12 @@ public class Game {
      * allows the player to pass his turn
      */
     public void pass(){
-        currentPlayer++;
+
+        if(currentPlayer == players.length -1){
+            currentPlayer = 0;
+        }else {
+            currentPlayer++;
+        }
     }
 
 
@@ -60,6 +76,8 @@ public class Game {
             tiles[i] = handCurrentPlayer.get(is[i]);
         }
         grid.firstAdd(d, tiles);
+        getPlayers().remove(tiles);
+        getPlayers().refill();
     }
 
     /**
@@ -71,6 +89,8 @@ public class Game {
      */
     public void play(int row, int col, int index){
         grid.add(row, col, getCurrentPlayerHands().get(index));
+        getPlayers().remove(getCurrentPlayerHands().get(index));
+        getPlayers().refill();
     }
 
     /**
@@ -90,6 +110,8 @@ public class Game {
         }
 
         grid.add(row, col, d, tiles);
+        getPlayers().remove(tiles);
+        getPlayers().refill();
     }
 
     /**
@@ -108,14 +130,12 @@ public class Game {
         int tileIndex = 2;
         Tile tile = new Tile(null, null);
         for(int i = 0; i < is.length/3; i++){
-            row = is[row];
-            col = is[col];
-            tileIndex = is[tileIndex];
-            tile = getCurrentPlayerHands().get(tileIndex);
-            tiles[i] = new TileAtPosition(row, col, tile);
+            tile = getCurrentPlayerHands().get(is[tileIndex]);
+            tiles[i] = new TileAtPosition(is[row], is[col], tile);
             row+= 3;
             col+= 3;
             tileIndex+= 3;
         }
+        grid.add(tiles);
     }
 }

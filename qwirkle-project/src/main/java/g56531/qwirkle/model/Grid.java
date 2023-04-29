@@ -76,7 +76,7 @@ public class Grid {
         } else if (get(row, col) != null) {
             throw new QwirkleException("Déja une tuile à la position entrée");
         } else if (this.isEmpty) {
-            throw new QwirkleException("Pac encore de premier coupe jouer");
+            throw new QwirkleException("Pas encore de premier coupe jouer");
         }
 
         if (compatibleWithTileBoard(row, col, playTile)
@@ -172,10 +172,14 @@ public class Grid {
             int x = i + 1;
             while (x < line.length) {
                 if (line[i].color() == line[x].color()) {
-                    sameColors++;
+                    if(line[i].shape() == line[x].shape()){
+                        tileCompatible = false;
+                    }
                 }
-                if (line[i].shape() == line[x].shape()) {
-                    sameShapes++;
+                if (line[i].color() != line[x].color()) {
+                    if (line[i].shape() != line[x].shape()) {
+                        tileCompatible = false;
+                    }
                 }
                 ++x;
             }
@@ -205,24 +209,32 @@ public class Grid {
         Shape shapePlayTile = line.shape();
         boolean validMove = true;
         for (var d : Direction.values()) {
-            row += d.getDeltaRow();
-            col += d.getDeltaCol();
+            boolean endLineTile = false;
+            int lap = 0;
+            while (!endLineTile){
+                row += d.getDeltaRow();
+                col += d.getDeltaCol();
 
-            if (get(row, col) != null) {
-                if (colorPlayTile != tile[row][col].color()) {
-                    if (shapePlayTile != tile[row][col].shape()) {
-                        validMove = false;
-                    }
-                } else if (shapePlayTile != tile[row][col].shape()) {
+                if (get(row, col) != null) {
+                    lap++;
                     if (colorPlayTile != tile[row][col].color()) {
+                        if (shapePlayTile != tile[row][col].shape()) {
+                            validMove = false;
+                        }
+                    } else if (shapePlayTile != tile[row][col].shape()) {
+                        if (colorPlayTile != tile[row][col].color()) {
+                            validMove = false;
+                        }
+                    } else if (shapePlayTile == tile[row][col].shape() &&
+                            colorPlayTile == tile[row][col].color()) {
                         validMove = false;
                     }
-                } else if (shapePlayTile == tile[row][col].shape() &&
-                        colorPlayTile == tile[row][col].color()) {
-                    validMove = false;
+                } else if(lap == 0){
+                    endLineTile = true;
+                    caseNull++;
+                } else {
+                    endLineTile = true;
                 }
-            } else {
-                caseNull++;
             }
             row = initialRow;
             col = initialCol;

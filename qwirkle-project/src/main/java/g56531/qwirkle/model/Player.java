@@ -1,5 +1,6 @@
 package g56531.qwirkle.model;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -14,7 +15,13 @@ public class Player {
     private List<Tile> tiles;
 
     public Player(String name) {
+
         this.name = name;
+        Tile[] arrayTile = Bag.getInstance().getRandomTiles(6);
+        tiles = new ArrayList<>();
+        for (var tile: arrayTile) {
+            this.tiles.add(tile);
+        }
     }
 
     public String getName() {
@@ -34,8 +41,12 @@ public class Player {
      */
     public void refill(){
         int nbTileDraw = 6 - tiles.size();
-        Bag.getInstance().getRandomTiles(nbTileDraw);
+        Tile[] arrayTile = Bag.getInstance().getRandomTiles(nbTileDraw);
+        for (var tile: arrayTile) {
+            this.tiles.add(tile);
+        }
     }
+
 
     /**
      * remove tiles input as player hand parameter
@@ -44,8 +55,7 @@ public class Player {
     public void remove(Tile... ts){
         for (int i = 0; i < ts.length; i++){
             for(int x = 0; x < tiles.size(); x++){
-                if(ts[i].color() == tiles.get(x).color()
-                && ts[i].shape() == tiles.get(x).shape()){
+                if(ts[i].hashCode() == tiles.get(x).hashCode()){
                     tiles.remove(x);
                 }
             }
