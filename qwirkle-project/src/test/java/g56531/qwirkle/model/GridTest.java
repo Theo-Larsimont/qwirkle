@@ -118,7 +118,9 @@ public class GridTest {
         var t3 = new Tile(RED, PLUS);
         grid.firstAdd(UP, t1, t2, t3);
         var t4 = new Tile(GREEN,PLUS);
-        grid.add(42, 45, t4);
+        assertThrows(QwirkleException.class, () ->{
+            grid.add(42, 45, t4);
+        });
         assertNull(grid.get(42, 45));
 
     }
@@ -152,7 +154,9 @@ public class GridTest {
         var t3 = new Tile(RED, PLUS);
         grid.firstAdd(UP, t1, t2, t3);
         var t4 = new Tile(BLUE,ROUND);
-        grid.add(44,44, t4);
+        assertThrows(QwirkleException.class, () ->{
+            grid.add(44, 44, t4);
+        });
         assertNull(get(grid, -1, -1));
     }
 
@@ -163,7 +167,9 @@ public class GridTest {
         var t3 = new Tile(RED, PLUS);
         grid.firstAdd(UP, t1, t2, t3);
         var t4 = new Tile(BLUE,ROUND);
-        grid.add(46,44, t4);
+        assertThrows(QwirkleException.class, () ->{
+            grid.add(46,44, t4);
+        });
         assertNull(get(grid, 1, -1));
     }
 
@@ -191,7 +197,9 @@ public class GridTest {
         var t4 = new Tile(RED, SQUARE);
         var t5 = new Tile(RED, SQUARE);
         var t6 = new Tile(PURPLE, SQUARE);
-        grid.add(46,45,RIGHT, t4, t5, t6);
+        assertThrows(QwirkleException.class, () ->{
+            grid.add(46, 45, RIGHT, t4, t5, t6);
+        });
         assertNull(grid.get(46,45));
     }
 
@@ -268,7 +276,9 @@ public class GridTest {
         grid.add(43,44, DOWN, t8, t9);
         var t10 = new TileAtPosition(42,44, new Tile(GREEN, STAR));
         var t11 = new TileAtPosition(45,44, new Tile(BLUE, ROUND));
-        grid.add(t10, t11);
+        assertThrows(QwirkleException.class, () ->{
+            grid.add(t10, t11);
+        });
         assertNull(grid.get(42,44));
         assertNull(grid.get( 45, 44));
     }
@@ -318,7 +328,9 @@ public class GridTest {
         grid.add(t10, t11);
         var t12 = new Tile(BLUE, SQUARE);
         var t13 = new Tile(RED, SQUARE);
-        grid.add(46, 48, DOWN, t12, t13);
+        assertThrows(QwirkleException.class, () ->{
+            grid.add(46, 48, DOWN, t12, t13);
+        });
         assertNull(grid.get(46,48));
         assertNull(grid.get( 47, 48));
     }
@@ -374,7 +386,9 @@ public class GridTest {
         grid.add(46, 48, DOWN, t12, t13);
         var t14 = new Tile(YELLOW, STAR);
         var t15 = new Tile(GREEN, STAR);
-        grid.add(42, 43, LEFT, t14, t15);
+        assertThrows(QwirkleException.class, () ->{
+            grid.add(42, 43, LEFT, t14, t15);
+        });
         assertNull(grid.get(42,43));
         assertNull(grid.get( 42, 42));
     }
@@ -436,7 +450,9 @@ public class GridTest {
         grid.add(42, 43, LEFT, t14, t15);
         var t16 = new Tile(ORANGE, CROSS);
         var t17 = new Tile(YELLOW, DIAMOND);
-        grid.add(43, 42, DOWN, t16, t17);
+        assertThrows(QwirkleException.class, () ->{
+            grid.add(43, 42, DOWN, t16, t17);
+        });
         assertNull(grid.get(43,42));
         assertNull(grid.get( 44, 42));
     }
@@ -504,7 +520,9 @@ public class GridTest {
         grid.add(43, 42, DOWN, t16, t17);
         var t18 = new Tile(YELLOW, DIAMOND);
         var t19 = new Tile(YELLOW, SQUARE);
-        grid.add(44, 43, DOWN, t18, t19);
+        assertThrows(QwirkleException.class, () ->{
+            grid.add(44, 43, DOWN, t18, t19);
+        });
         assertNull(grid.get(44,43));
         assertNull(grid.get( 45, 43));
     }
@@ -575,7 +593,9 @@ public class GridTest {
         var t19 = new Tile(YELLOW, ROUND);
         grid.add(44, 43, DOWN, t18, t19);
         var t20 = new Tile(ORANGE, STAR);
-        grid.add(42, 45, t20);
+        assertThrows(QwirkleException.class, () ->{
+            grid.add(42, 45, t20);
+        });
         assertNull(grid.get(42,45));
     }
 
@@ -743,7 +763,9 @@ public class GridTest {
         grid.add(t21,t22,t23);
         var t24 = new Tile(YELLOW, SQUARE);
         var t25 = new Tile(BLUE, ROUND);
-        grid.add(46,49, DOWN, t24, t25);
+        assertThrows(QwirkleException.class, () ->{
+            grid.add(46,49, DOWN, t24, t25);
+        });
         assertNull(grid.get(46,49));
         assertNull(grid.get(47,49));
     }

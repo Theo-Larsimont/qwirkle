@@ -82,6 +82,8 @@ public class Grid {
         if (compatibleWithTileBoard(row, col, playTile)
         && !checkDouble(row, col, playTile)) {
             tile[row][col] = playTile;
+        }else {
+            throw new QwirkleException("Les tuiles ne sont pas compatible");
         }
 
     }
@@ -117,6 +119,7 @@ public class Grid {
                     row += d.getDeltaRow();
                     col += d.getDeltaCol();
                 }
+                throw new QwirkleException("Les tuiles ne sont pas compatible");
             }
         }
     }
@@ -147,12 +150,15 @@ public class Grid {
             tile[row][col] = tilePlay;
             nbMovePlay++;
         }
-        if (nbMovePlay > 0 && !validMove) {
-            for (int i = 0; i < nbMovePlay; i++) {
-                row = line[i].row();
-                col = line[i].col();
-                tile[row][col] = null;
+        if(!validMove){
+            if(nbMovePlay > 0){
+                for (int i = 0; i < nbMovePlay; i++) {
+                    row = line[i].row();
+                    col = line[i].col();
+                    tile[row][col] = null;
+                }
             }
+            throw new QwirkleException("Les tuiles ne sont pas compatible");
         }
     }
 

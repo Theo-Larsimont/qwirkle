@@ -11,6 +11,12 @@ import java.util.List;
 import java.util.Scanner;
 
 public class App {
+    /**
+     * Ask for the names of all players in the game
+     *
+     * @param nbPlayer
+     * @return a list with the name of all the players
+     */
     private static List askNamesPlayer(int nbPlayer) {
         ArrayList<String> playerNames = new ArrayList<>();
         for (int i = 0; i < nbPlayer; i++) {
@@ -23,6 +29,11 @@ public class App {
         return playerNames;
     }
 
+    /**
+     * asks for the number of players between 2 and 4
+     *
+     * @return number of player
+     */
     private static int askNbPlayers() {
         Scanner clavier = new Scanner(System.in);
         System.out.println("Combien de joueur êtes vous ? (entre 2-4)");
@@ -35,6 +46,11 @@ public class App {
         return nbPlayers;
     }
 
+    /**
+     * Ask the players for a move
+     *
+     * @return a board with the player's move
+     */
     private static String[] askPLay() {
         boolean invalidCommand = true;
         Scanner clavier = new Scanner(System.in);
@@ -69,7 +85,9 @@ public class App {
                         "(entrez h pour plus d'infos sur les differente commande) : ");
                 commandePlay = clavier.nextLine();
                 commandSplit = commandePlay.split(" ");
-            } else {
+            }else if(commandSplit[0].equals("q")){
+                invalidCommand =false;
+            }else {
                 View.displayError("Veuillez entreune commande pour jouer " +
                         "(entrez h pour plus d'infos sur les differente commande) : ");
                 commandePlay = clavier.nextLine();
@@ -79,7 +97,14 @@ public class App {
         return commandSplit;
     }
 
-    private static int[] tabIntoList(String[] mouv, Game game, int n) {
+    /**
+     * convert all String ( number ) to int to put them in an array of int
+     *
+     * @param mouv table to convert
+     * @param n    starting index to convert the array
+     * @return an array of int
+     */
+    private static int[] tabIntoList(String[] mouv, int n) {
         String typeMouv = mouv[0];
         List<Integer> list = new ArrayList();
         int[] numberList = new int[mouv.length - n];
@@ -94,54 +119,50 @@ public class App {
         return numberList;
     }
 
+    /**
+     * plays the move requested by the player and if the move is not
+     * valid asks the player for another move
+     * @param mouv player
+     * @param game
+     */
     private static void playMouv(String[] mouv, Game game) {
-        if (mouv[0].equals("f")) {
-            do {
-                try {
-                    game.first(Direction.LEFT, tabIntoList(mouv, game, 1));
-                    break;
-                } catch (QwirkleException e) {
-                    View.displayError(e.getMessage());
-                    mouv = askPLay();
-                    continue;
-                }
-            } while (true);
-        } else if (mouv[0].equals("m")) {
-            game.play(tabIntoList(mouv, game, 1));
-        } else if (mouv[0].equals("o")) {
-            int[] playInt = tabIntoList(mouv, game, 1);
-            do {
-                try {
+        do {
+            try {
+                if (mouv[0].equals("f")) {
+                    game.first(Direction.LEFT, tabIntoList(mouv, 1));
+                } else if (mouv[0].equals("m")) {
+                    game.play(tabIntoList(mouv, 1));
+                } else if (mouv[0].equals("o")) {
+                    int[] playInt = tabIntoList(mouv, 1);
                     game.play(playInt[0], playInt[1], playInt[2]);
-                    break;
-                } catch (QwirkleException e) {
-                    View.displayError(e.getMessage());
-                    mouv = askPLay();
-                    continue;
+                } else if (mouv[0].equals("l")) {
+                    int[] playInt = tabIntoList(mouv, 4);
+                    int row = Integer.parseInt(mouv[1]);
+                    int col = Integer.parseInt(mouv[2]);
+                    Direction d = null;
+                    switch (mouv[3]) {
+                        case "u":
+                            d = Direction.UP;
+                            break;
+                        case "l":
+                            d = Direction.LEFT;
+                            break;
+                        case "r":
+                            d = Direction.RIGHT;
+                            break;
+                        case "d":
+                            d = Direction.DOWN;
+                            break;
+                    }
+                    game.play(row, col, d, playInt);
                 }
-            } while (true);
-        } else if (mouv[0].equals("l")) {
-            int[] playInt = tabIntoList(mouv, game, 4);
-            int row = Integer.parseInt(mouv[1]);
-            int col = Integer.parseInt(mouv[2]);
-            Direction d = null;
-            switch (mouv[3]) {
-                case "u":
-                    d = Direction.UP;
-                    break;
-                case "l":
-                    d = Direction.LEFT;
-                    break;
-                case "r":
-                    d = Direction.RIGHT;
-                    break;
-                case "d":
-                    d = Direction.DOWN;
-                    break;
+                break;
+            } catch (QwirkleException e) {
+                View.displayError(e.getMessage());
+                mouv = askPLay();
+                continue;
             }
-            System.out.println(d);
-            game.play(row, col, d, playInt);
-        }
+        } while (true);
     }
 
     public static void main(String[] args) {
@@ -155,6 +176,10 @@ public class App {
             System.out.println();
             View.display(game.getPlayers());
             String[] mouv = askPLay();
+            if(mouv[0].equals("q")){
+                View.displayError("Vous avez decidez d'arréter la partie");
+                break;
+            }
             playMouv(mouv, game);
 
             View.display(gridView);

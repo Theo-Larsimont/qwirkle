@@ -21,6 +21,7 @@ public class View {
         int colMin = 45;
         boolean tileFind = false;
 
+        // Identify the first row of the table occupied
         for (int row = 0; !tileFind; row++) {
             for (int col = 0; col < 91; col++) {
                 if (grid.get(row, col) != null) {
@@ -31,6 +32,8 @@ public class View {
             }
         }
         tileFind = false;
+
+        // Identify the last row of the table occupied
         for (int row = 90; !tileFind; row--) {
             for (int col = 90; col >= 0; col--) {
                 if (grid.get(row, col) != null) {
@@ -42,6 +45,7 @@ public class View {
         }
         tileFind = false;
 
+        // Identify the first column of the table occupied
         for (int col = 0; !tileFind; col++) {
             for (int row = 0; row < 91; row++) {
                 if (grid.get(row, col) != null) {
@@ -52,6 +56,8 @@ public class View {
             }
         }
         tileFind = false;
+
+        // Identify the last column of the table occupied
         for (int col = 90; !tileFind; col--) {
             for (int row = 0; row < 91; row++) {
                 if (grid.get(row, col) != null) {
@@ -62,6 +68,7 @@ public class View {
             }
         }
 
+        // Displays the part of the game board used
         for (int i = rowMin; i <= rowMax; i++) {
             System.out.print(i + "\t");
             for (int x = colMin; x <= colMax; x++) {
