@@ -1,10 +1,9 @@
 package g56531.qwirkle.model;
-
-import javax.swing.*;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
+/**
+ * model facade
+ */
 public class Game {
     private Grid grid;
     private Player[] players;

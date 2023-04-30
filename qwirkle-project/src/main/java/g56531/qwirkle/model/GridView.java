@@ -1,5 +1,8 @@
 package g56531.qwirkle.model;
 
+/**
+ * grid view not editable
+ */
 public class GridView {
     private Grid grid;
 

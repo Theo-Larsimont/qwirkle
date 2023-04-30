@@ -1,8 +1,4 @@
 package g56531.qwirkle.model;
-
-import java.util.Arrays;
-import java.util.List;
-
 /**
  * Grid represent the grid of the game
  */

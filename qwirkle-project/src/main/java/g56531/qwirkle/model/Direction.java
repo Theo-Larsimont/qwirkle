@@ -1,7 +1,7 @@
 package g56531.qwirkle.model;
 
 /**
- *
+ * direction of travel
  */
 public enum Direction {
     LEFT(0,-1),
