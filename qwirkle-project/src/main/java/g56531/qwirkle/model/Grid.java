@@ -33,8 +33,8 @@ public class Grid {
      * @param d    direction in which we want to play
      * @param line tiles we want to play
      */
-    public void firstAdd(Direction d, Tile... line) {
-
+    public int firstAdd(Direction d, Tile... line) {
+        int score = 0;
         if (!this.isEmpty) {
             throw new QwirkleException("Le tableau n'est pas vide");
         }
@@ -53,7 +53,7 @@ public class Grid {
             tile[row][col] = line[i];
         }
         this.isEmpty = false;
-
+        return score = tile.length;
     }
 
     /**
@@ -63,7 +63,7 @@ public class Grid {
      * @param col      column on which we want to place the tile
      * @param playTile tile we want to play
      */
-    public void add(int row, int col, Tile playTile) {
+    public int add(int row, int col, Tile playTile) {
 
         if (row < 0 || row > tile.length) {
             throw new QwirkleException("La ligne entrée pour jouer est hors plateau");
@@ -81,7 +81,7 @@ public class Grid {
         }else {
             throw new QwirkleException("Les tuiles ne sont pas compatible");
         }
-
+        return scoreCount(row, col, playTile);
     }
 
     /**
@@ -92,7 +92,7 @@ public class Grid {
      * @param d    direction to add
      * @param line tiles to play
      */
-    public void add(int row, int col, Direction d, Tile... line) {
+    public int add(int row, int col, Direction d, Tile... line) {
 
         boolean validMove = false;
         boolean doubleTile = false;
@@ -124,7 +124,7 @@ public class Grid {
      * Add one or more tiles to a specific position
      * @param line tile to add
      */
-    public void add(TileAtPosition... line) {
+    public int add(TileAtPosition... line) {
         boolean validMove = false;
         boolean doubleTile = false;
         int nbMovePlay = 0;
@@ -197,7 +197,6 @@ public class Grid {
     /**
      * check if a tile is compatible with a position with the tiles already
      * present on the board
-     *
      * @param row
      * @param col
      * @param line tile to check
@@ -279,5 +278,55 @@ public class Grid {
         }
         return doubletile;
 
+    }
+
+    private int scoreCount(int row, int col, Tile tileplay){
+        int initialRow = row;
+        int initialCol = col;
+        int score = 0;
+        boolean lineEmptyCol = true;
+        boolean lineEmptyRow = true;
+
+        for (var d : Direction.values()) {
+            row += d.getDeltaRow();
+            col += d.getDeltaCol();
+            if(d.equals(Direction.RIGHT) || d.equals(Direction.LEFT)){
+                while (tile[row][col] != null){
+                    score++;
+                    lineEmptyRow = false;
+                    row += d.getDeltaRow();
+                    col += d.getDeltaCol();
+                }
+                if (!lineEmptyRow){
+                    score++;
+                }
+            }else {
+                while (tile[row][col] != null){
+                    score++;
+                    lineEmptyCol = false;
+                    row += d.getDeltaRow();
+                    col += d.getDeltaCol();
+                }
+                if (!lineEmptyCol){
+                    score++;
+                }
+            }
+
+            row = initialRow;
+            col = initialCol;
+        }
+        return score;
+    }
+
+    private int scoreCount(int row, int col, Direction d, Tile... line){
+        int score = 0;
+        int initialRow = row;
+        int initialCol = col;
+        boolean lineCheck;
+        
+            row = initialRow;
+            col = initialCol;
+
+        return score;
     }
 }
